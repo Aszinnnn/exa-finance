@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "EXA",
+    "slug": "exa",
+    "scheme": "exa",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": {"package": "com.exa.dashboard", "permissions": []},
+    "plugins": ["expo-secure-store", ["expo-camera", {"cameraPermission": "Permita a câmera para ler o QR de vínculo com a web.", "recordAudioAndroid": false}]]
+  }
+}

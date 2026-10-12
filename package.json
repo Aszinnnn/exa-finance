@@ -1,0 +1,16 @@
+{
+  "name": "exa",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "pnpm --filter @exa/web dev",
+    "build": "pnpm --filter @exa/web build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @exa/domain test"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

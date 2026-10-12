@@ -1,0 +1,25 @@
+{
+  "name": "@exa/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@exa/domain": "workspace:*",
+    "@supabase/supabase-js": "^2.57.4",
+    "expo": "~54.0.0",
+    "expo-camera": "~17.0.0",
+    "expo-crypto": "~15.0.0",
+    "expo-file-system": "~19.0.0",
+    "expo-sharing": "~14.0.0",
+    "expo-secure-store": "~15.0.0",
+    "react": "19.1.0",
+    "react-native": "0.81.4",
+    "react-native-url-polyfill": "^2.0.0"
+  },
+  "devDependencies": {"@types/react": "^19.1.13", "typescript": "^5.9.3"}
+}
