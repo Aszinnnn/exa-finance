@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
-import { authenticatedUser, serverDb } from '@/lib/supabase';
+import { authenticatedUser, serverDb } from '@/lib/server-supabase';
 import { apiLimit, limitedJson } from '@/lib/security';
 
 const input = z.object({ session_id: z.uuid(), nonce: z.string().length(64).regex(/^[a-f0-9]+$/), installation_hash: z.string().length(64).regex(/^[a-f0-9]+$/), device_key_hash: z.string().length(64).regex(/^[a-f0-9]+$/), device_name: z.string().trim().min(1).max(80) });

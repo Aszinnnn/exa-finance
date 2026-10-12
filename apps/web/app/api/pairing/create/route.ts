@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { z } from 'zod';
-import { serverDb } from '@/lib/supabase';
+import { serverDb } from '@/lib/server-supabase';
 import { authorizedUser } from '@/lib/authorized';
 import { apiLimit, limitedJson } from '@/lib/security';
 

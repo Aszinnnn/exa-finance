@@ -1,5 +1,5 @@
 import { generateReport } from './report';
-import { serverDb } from './supabase';
+import { serverDb } from './server-supabase';
 
 type Job = { id: string; user_id: string; period_from: string; period_to: string; status: string };
 

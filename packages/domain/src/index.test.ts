@@ -4,6 +4,15 @@ import { installments, nextDeliveryAt, parseBrlCents, summarizeLedger } from './
 describe('regras financeiras', () => {
   it('converte BRL em centavos sem ponto flutuante de entrada', () => {
     expect(parseBrlCents('R$ 1.234,56')).toBe(123456);
+    expect(parseBrlCents('100')).toBe(10000);
+    expect(parseBrlCents('0')).toBe(0);
+    expect(parseBrlCents('100,5')).toBe(10050);
+    expect(parseBrlCents('1.000')).toBe(100000);
+    expect(parseBrlCents('-150')).toBe(-15000);
+    expect(() => parseBrlCents('')).toThrow();
+    expect(() => parseBrlCents('1e6')).toThrow();
+    expect(() => parseBrlCents('100,999')).toThrow();
+    expect(() => parseBrlCents('9007199254740991')).toThrow();
     expect(() => parseBrlCents('39.9')).toThrow();
   });
   it('distribui centavos com soma exata', () => {

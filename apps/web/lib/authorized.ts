@@ -1,5 +1,5 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { authenticatedUser, serverDb } from './supabase';
+import { authenticatedUser, serverDb } from './server-supabase';
 
 export async function authorizedUser(request: Request) {
   const user = await authenticatedUser(request);

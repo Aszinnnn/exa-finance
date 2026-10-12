@@ -5,6 +5,7 @@
   "build": {
     "production-apk": {
       "distribution": "internal",
+      "autoIncrement": true,
       "android": {"buildType": "apk"},
       "environment": "production",
       "node": "22.23.1",

@@ -1,4 +1,4 @@
-import { serverDb } from './supabase';
+import { serverDb } from './server-supabase';
 
 type Action = 'report_generate' | 'report_share' | 'pairing_create' | 'pairing_request' | 'pairing_approve';
 

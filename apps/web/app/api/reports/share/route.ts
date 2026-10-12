@@ -1,5 +1,5 @@
 import { reportPeriod } from '@exa/domain';
-import { serverDb } from '@/lib/supabase';
+import { serverDb } from '@/lib/server-supabase';
 import { authorizedUser } from '@/lib/authorized';
 import { processDelivery } from '@/lib/delivery';
 import { z } from 'zod';

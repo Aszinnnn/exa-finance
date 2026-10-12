@@ -38,13 +38,13 @@ export const reportPeriod = z.object({
 
 export function parseBrlCents(input: string): number {
   const normalized = input.trim().replace(/^R\$\s*/, '').replace(/\s/g, '');
-  if (!/^-?(?:\d{1,3}(?:\.\d{3})*|\d+),\d{2}$/.test(normalized)) {
-    throw new Error('Informe um valor com duas casas decimais, por exemplo 39,90.');
+  if (!/^-?(?:\d{1,3}(?:\.\d{3})*|\d+)(?:,\d{1,2})?$/.test(normalized)) {
+    throw new Error('Informe reais como 100, 100,50 ou 1.000,50.');
   }
   const negative = normalized.startsWith('-');
   const unsigned = normalized.replace(/^-/, '');
   const [reais, centavos] = unsigned.split(',');
-  const result = Number(reais!.replace(/\./g, '')) * 100 + Number(centavos);
+  const result = Number(reais!.replace(/\./g, '')) * 100 + Number((centavos ?? '').padEnd(2, '0'));
   if (!Number.isSafeInteger(result)) throw new Error('Valor fora do limite permitido.');
   return negative ? -result : result;
 }

@@ -115,10 +115,29 @@ jobs:
           unzip -tqq artifacts/EXA-Android.apk
           sha256sum artifacts/EXA-Android.apk
 
+      - name: Verify Android signature, package and alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          android_tools="$ANDROID_HOME/build-tools/35.0.0"
+          test -x "$android_tools/apksigner"
+          apk_path="apps/mobile/artifacts/EXA-Android.apk"
+          "$android_tools/apksigner" verify --verbose --print-certs "$apk_path"
+          "$android_tools/zipalign" -c -P 16 4 "$apk_path"
+          "$android_tools/aapt" dump badging "$apk_path" > "$RUNNER_TEMP/exa-apk-badging.txt"
+          grep -F "package: name='com.exa.dashboard'" "$RUNNER_TEMP/exa-apk-badging.txt"
+          grep "native-code:.*arm64-v8a" "$RUNNER_TEMP/exa-apk-badging.txt"
+          if "$android_tools/aapt" dump xmltree "$apk_path" AndroidManifest.xml | grep -E 'android:debuggable.*0xffffffff'; then
+            echo 'Release APK must not be debuggable.'; exit 1
+          fi
+          sha256sum "$apk_path" > apps/mobile/artifacts/EXA-Android.apk.sha256
+
       - name: Publish APK artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: exa-android-apk
-          path: apps/mobile/artifacts/EXA-Android.apk
+          path: |
+            apps/mobile/artifacts/EXA-Android.apk
+            apps/mobile/artifacts/EXA-Android.apk.sha256
           if-no-files-found: error
           retention-days: 14

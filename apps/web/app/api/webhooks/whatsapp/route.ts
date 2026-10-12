@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { serverDb } from '@/lib/supabase';
+import { serverDb } from '@/lib/server-supabase';
 
 export const runtime = 'nodejs';
 

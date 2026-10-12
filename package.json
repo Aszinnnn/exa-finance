@@ -7,10 +7,10 @@
     "dev": "pnpm --filter @exa/web dev",
     "build": "pnpm --filter @exa/web build",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @exa/domain test"
+    "test": "vitest run"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.11"
   }
 }

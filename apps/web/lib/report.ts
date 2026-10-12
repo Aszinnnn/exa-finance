@@ -1,6 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { formatBrl } from '@exa/domain';
-import { serverDb } from './supabase';
+import { serverDb } from './server-supabase';
 
 type Movement = { kind: string; amount_cents: number; description: string; occurred_on: string; status: string; account_id: string };
 type Account = { id: string; name: string; opening_balance_cents: number | null; opening_date: string | null };
