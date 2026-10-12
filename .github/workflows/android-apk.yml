@@ -70,19 +70,49 @@ jobs:
           eas env:set production --name EXPO_PUBLIC_APP_URL --value "$EXPO_PUBLIC_APP_URL" --visibility plaintext --non-interactive
 
       - name: Build APK on EAS
-        working-directory: apps/mobile
-        run: eas build --platform android --profile production-apk --non-interactive --wait
-
-      - name: Download APK from EAS
+        id: build_eas
         working-directory: apps/mobile
         shell: bash
         run: |
           set -euo pipefail
+          eas build --platform android --profile production-apk --non-interactive --wait --json > "$RUNNER_TEMP/exa-eas-build.json"
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const result = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/exa-eas-build.json', 'utf8'));
+          const builds = Array.isArray(result) ? result : [result];
+          const build = builds.find(item => String(item.platform).toUpperCase() === 'ANDROID');
+          if (!build || typeof build.id !== 'string') {
+            throw new Error('EAS did not return the Android build ID.');
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'build_id=' + build.id + '\n');
+          console.log('Android EAS build ID: ' + build.id);
+          NODE
+
+      - name: Download APK from EAS
+        working-directory: apps/mobile
+        shell: bash
+        env:
+          EAS_BUILD_ID: ${{ steps.build_eas.outputs.build_id }}
+        run: |
+          set -euo pipefail
+          test -n "$EAS_BUILD_ID" || { echo 'Missing EAS build ID.'; exit 1; }
+          eas build:view "$EAS_BUILD_ID" --json > "$RUNNER_TEMP/exa-eas-build-detail.json"
+          apk_url="$(node - <<'NODE'
+          const fs = require('node:fs');
+          const build = JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP + '/exa-eas-build-detail.json', 'utf8'));
+          if (String(build.status).toUpperCase() !== 'FINISHED') {
+            throw new Error('EAS build has not finished successfully: ' + build.status);
+          }
+          const url = build.artifacts?.buildUrl || build.artifacts?.applicationArchiveUrl;
+          if (!url || new URL(url).protocol !== 'https:') {
+            throw new Error('EAS build did not provide a valid HTTPS APK URL.');
+          }
+          process.stdout.write(url);
+          NODE
+          )"
           mkdir -p artifacts
-          eas build:download --platform android --non-interactive
-          apk="$(find . -maxdepth 3 -type f -name '*.apk' -not -path './artifacts/*' -print -quit)"
-          test -n "$apk" || { echo 'EAS build completed but no APK was downloaded.'; exit 1; }
-          cp "$apk" artifacts/EXA-Android.apk
+          curl --fail --location --retry 3 --silent --show-error --output artifacts/EXA-Android.apk "$apk_url"
+          unzip -tqq artifacts/EXA-Android.apk
           sha256sum artifacts/EXA-Android.apk
 
       - name: Publish APK artifact
