@@ -28,7 +28,7 @@ Escopo: código web/Android, banco `exa-finance` (`alqkrpjetsrdlbjuxkrj`), confi
 | 12. Transporte/cache/portas | HTTPS/HSTS e no-store; desenvolvimento alterado para bind 127.0.0.1 | Nenhum servidor EXA escutando publicamente no diagnóstico local; portas da infraestrutura compartilhada não foram escaneadas |
 | 13. Dependências | Vitest atualizado a 4.1.11, removendo achados críticos antigos; testes e tipos passam | Restam 4 achados transitivos no tooling Expo: uuid (moderado), node-forge/braces (altos sem patch publicado no audit), sprintf-js (moderado sem patch). Não é auditoria limpa |
 | 14. Supply chain/APK | Actions fixadas por SHA, EXPO_TOKEN apenas secret; APK com verificação de assinatura, pacote, ARM64 e zipalign na pipeline | Novo APK precisa concluir EAS e instalação física. Manter keystore existente; incremento automático de versionCode |
-| 15. Open Finance/privacidade | Nenhuma senha de banco coletada; interface indica claramente integração indisponível | Falta provedor, credenciais server-side, contrato/custos e consentimento; importação bancária não foi implementada nem simulada |
+| 15. Escopo financeiro | Contas e salário são registrados manualmente; nenhuma senha bancária é coletada | Open Finance foi retirado do escopo desta versão a pedido do proprietário |
 
 ## Sincronização
 
@@ -53,12 +53,6 @@ Postgres Changes não envia os headers REST de prova de dispositivo usados pelas
 
 Artefato antigo inspecionado: 80.680.521 bytes, SHA-256 `2e5a73f0303f2246eb9fe33d620c036064bb9f7fd23a08ee199d63fd5e486701`. Não confundir com o APK recompilado.
 
-## Open Finance: bloqueio e próximo contrato técnico
-
-O proprietário informou não ter provedor. Bancos desejados: Nubank, PicPay, Banco do Brasil, Santander, Itaú e Bradesco; cobertura ainda não validada. É preciso escolher provedor com conexão oficial/consentida, validar custo antes de ativar, usar sandbox e depois credenciais privadas em produção.
-
-Implementação futura: criação de consentimento autenticada no backend; widget/redirect oficial; validação de assinatura/replay de webhook; vincular item ao usuário no servidor; importação idempotente com unique(provider, item, transaction); revogação/exclusão; reconciliação sem duplicar lançamentos manuais; consentimento específico e minimização de dados. A receita salarial deve ser classificada e confirmada pelo usuário, não inferida como fato apenas por descrição. Nada disso deve ser marcado como conectado antes do fluxo real passar.
-
 ## Fontes primárias
 
 - OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
@@ -66,6 +60,5 @@ Implementação futura: criação de consentimento autenticada no backend; widge
 - Supabase RLS: https://supabase.com/docs/guides/database/postgres/row-level-security
 - Android 16 KB: https://developer.android.com/guide/practices/page-sizes
 - Android assinatura: https://developer.android.com/tools/apksigner
-- Pluggy ambientes/consentimento: https://v2.docs.pluggy.ai/pt/docs/connect-widget/environments
 
 Status de publicação e instalação deve ser verificado separadamente. Testes locais e SQL não provam implantação nem funcionamento no aparelho físico.
