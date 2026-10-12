@@ -348,7 +348,13 @@ function EntryDialog({ db, session, kind, accounts, onClose, onSaved, onError }:
         if (error) throw error;
       }
       onSaved(); onClose();
-    } catch (error) { onError(error instanceof Error ? error.message : 'Não foi possível salvar.'); }
+    } catch (error) {
+      const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : '';
+      onError(error instanceof Error ? error.message : code === '42501' ? 'Dispositivo sem autorização para salvar. Revise o vínculo.' :
+        code === '23503' ? 'A conta selecionada não está disponível.' :
+        code === '23514' ? 'Confira o valor e os demais campos.' :
+        'Não foi possível salvar. Confira a conexão e tente novamente.');
+    }
     setBusy(false);
   }
   return <div className="overlay" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }} onKeyDown={e => { if (e.key === 'Escape') onClose(); }}><div className="modal" role="dialog" aria-modal="true" aria-label={kind === 'account' ? 'Nova conta' : kind === 'event' ? 'Novo evento' : 'Novo lançamento'}><div className="modalHead"><h2>{kind === 'account' ? 'Nova conta' : kind === 'event' ? 'Novo evento' : 'Novo lançamento'}</h2><button className="iconButton" onClick={onClose} aria-label="Fechar"><X size={20}/></button></div><form action={submit}>
