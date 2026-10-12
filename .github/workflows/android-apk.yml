@@ -57,9 +57,11 @@ jobs:
           pnpm --filter @exa/mobile exec expo export --platform android
 
       - name: Initialize or link EAS project
+        working-directory: apps/mobile
         run: eas project:init --account achilles33 --non-interactive
 
       - name: Synchronize public Expo build variables
+        working-directory: apps/mobile
         shell: bash
         run: |
           set -euo pipefail
@@ -68,9 +70,11 @@ jobs:
           eas env:set production --name EXPO_PUBLIC_APP_URL --value "$EXPO_PUBLIC_APP_URL" --visibility plaintext --non-interactive
 
       - name: Build APK on EAS
+        working-directory: apps/mobile
         run: eas build --platform android --profile production-apk --non-interactive --wait
 
       - name: Download APK from EAS
+        working-directory: apps/mobile
         shell: bash
         run: |
           set -euo pipefail
@@ -85,6 +89,6 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: exa-android-apk
-          path: artifacts/EXA-Android.apk
+          path: apps/mobile/artifacts/EXA-Android.apk
           if-no-files-found: error
           retention-days: 14
