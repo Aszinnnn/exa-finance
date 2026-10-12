@@ -1,9 +1,14 @@
 {
+  "cli": {
+    "appVersionSource": "remote"
+  },
   "build": {
     "production-apk": {
       "distribution": "internal",
       "android": {"buildType": "apk"},
-      "environment": "production"
+      "environment": "production",
+      "node": "22.23.1",
+      "pnpm": "11.25.0"
     }
   }
 }
