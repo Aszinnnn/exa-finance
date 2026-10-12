@@ -53,6 +53,8 @@ Postgres Changes não envia os headers REST de prova de dispositivo usados pelas
 
 Artefato antigo inspecionado: 80.680.521 bytes, SHA-256 `2e5a73f0303f2246eb9fe33d620c036064bb9f7fd23a08ee199d63fd5e486701`. Não confundir com o APK recompilado.
 
+Novo APK EAS: build `887973d7-25dc-4794-8f68-82d3050a0b79`, workflow GitHub `38263007818` concluído com sucesso. A pipeline verificou assinatura, nome do pacote, ARM64 e alinhamento de 16 KB. O arquivo extraído tem 80.688.633 bytes e SHA-256 `c762e426185c388a41ef22829b5004addbfef743ac5a0574f5e6f28598b79a71`, conferido localmente contra o manifesto do artefato. Instalação física ainda não confirmada.
+
 ## Fontes primárias
 
 - OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
