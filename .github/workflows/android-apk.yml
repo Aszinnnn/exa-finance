@@ -57,10 +57,7 @@ jobs:
           pnpm --filter @exa/mobile exec expo export --platform android
 
       - name: Initialize or link EAS project
-        run: |
-          account="$(eas whoami)"
-          test -n "$account"
-          eas project:init --account "$account" --non-interactive
+        run: eas project:init --account achilles33 --non-interactive
 
       - name: Synchronize public Expo build variables
         shell: bash
